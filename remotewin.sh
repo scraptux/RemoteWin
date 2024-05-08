@@ -74,9 +74,23 @@ RemoteWin Version 0.1.0
 EOF
 }
 
-if [ -z "$(which xfreerdp)" ]; then
-	echo "The package 'xfreerdp' is required. Please install or provide it."; exit 1;
-fi
+# List of required commands
+required_commands=("xfreerdp" "awk" "grep" "sed")
+
+# Function to check if a command is installed
+check_command() {
+  command_name=$1
+  if ! command -v "$command_name" &>/dev/null; then
+    echo "Error: The required command '$command_name' is not installed. Please install it and try again."
+    exit 1
+  fi
+}
+
+# Check all required commands
+for cmd in "${required_commands[@]}"; do
+  check_command "$cmd"
+done
+
 
 POSITIONAL_ARGS=()
 
